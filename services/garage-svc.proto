@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package services;
+
+import "google/protobuf/empty.proto";
+import "models/garage.proto";
+
+message GarageUserId {
+    string user_id = 1;
+}
+
+message GarageAndUserId {
+    string user_id = 1;
+    models.Garage garage = 2;
+}
+
+
+service Garages {
+    rpc List(GarageUserId) returns (models.GarageList) {}
+    rpc Add(GarageAndUserId) returns (google.protobuf.Empty) {}
+}

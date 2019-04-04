@@ -1,7 +1,6 @@
 syntax = "proto3";
 
-package models;
-
+package model;
 
 enum UserGender {
     UNDEFINED = 0;
@@ -20,6 +19,7 @@ message UserList {
     repeated User list = 1;
 }
 
+// ==== for service
 
 import "google/protobuf/empty.proto";
 

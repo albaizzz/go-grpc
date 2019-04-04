@@ -5,10 +5,11 @@ package services
 
 import (
 	fmt "fmt"
+	_ "go-grpc1/models"
+	math "math"
+
 	proto "github.com/golang/protobuf/proto"
 	_ "github.com/golang/protobuf/ptypes/empty"
-	math "math"
-	_ "models"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
