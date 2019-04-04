@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package services;
+
+import "google/protobuf/empty.proto";
+import "models/user.proto";
+
+service Users {
+    rpc Register(models.User) returns (google.protobuf.Empty) {}
+    rpc List(google.protobuf.Empty) returns (models.UserList) {}
+}
+
