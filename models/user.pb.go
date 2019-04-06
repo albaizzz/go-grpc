@@ -3,23 +3,20 @@
 
 package model
 
+import proto "github.com/golang/protobuf/proto"
+import fmt "fmt"
+import math "math"
+import google_protobuf "github.com/golang/protobuf/ptypes/empty"
+
 import (
-	fmt "fmt"
-	proto "github.com/golang/protobuf/proto"
-	_ "github.com/golang/protobuf/ptypes/empty"
-	math "math"
+	context "golang.org/x/net/context"
+	grpc "google.golang.org/grpc"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
-
-// This is a compile-time assertion to ensure that this generated file
-// is compatible with the proto package it is being compiled against.
-// A compilation error at this line likely means your copy of the
-// proto package needs to be updated.
-const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 type UserGender int32
 
@@ -34,7 +31,6 @@ var UserGender_name = map[int32]string{
 	1: "MALE",
 	2: "FEMALE",
 }
-
 var UserGender_value = map[string]int32{
 	"UNDEFINED": 0,
 	"MALE":      1,
@@ -44,45 +40,19 @@ var UserGender_value = map[string]int32{
 func (x UserGender) String() string {
 	return proto.EnumName(UserGender_name, int32(x))
 }
-
-func (UserGender) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_74aea6fdcd620c44, []int{0}
-}
+func (UserGender) EnumDescriptor() ([]byte, []int) { return fileDescriptor1, []int{0} }
 
 type User struct {
-	Id                   string     `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name                 string     `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Password             string     `protobuf:"bytes,3,opt,name=password,proto3" json:"password,omitempty"`
-	Gender               UserGender `protobuf:"varint,4,opt,name=gender,proto3,enum=model.UserGender" json:"gender,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}   `json:"-"`
-	XXX_unrecognized     []byte     `json:"-"`
-	XXX_sizecache        int32      `json:"-"`
+	Id       string     `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	Name     string     `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
+	Password string     `protobuf:"bytes,3,opt,name=password" json:"password,omitempty"`
+	Gender   UserGender `protobuf:"varint,4,opt,name=gender,enum=model.UserGender" json:"gender,omitempty"`
 }
 
-func (m *User) Reset()         { *m = User{} }
-func (m *User) String() string { return proto.CompactTextString(m) }
-func (*User) ProtoMessage()    {}
-func (*User) Descriptor() ([]byte, []int) {
-	return fileDescriptor_74aea6fdcd620c44, []int{0}
-}
-
-func (m *User) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_User.Unmarshal(m, b)
-}
-func (m *User) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_User.Marshal(b, m, deterministic)
-}
-func (m *User) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_User.Merge(m, src)
-}
-func (m *User) XXX_Size() int {
-	return xxx_messageInfo_User.Size(m)
-}
-func (m *User) XXX_DiscardUnknown() {
-	xxx_messageInfo_User.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_User proto.InternalMessageInfo
+func (m *User) Reset()                    { *m = User{} }
+func (m *User) String() string            { return proto.CompactTextString(m) }
+func (*User) ProtoMessage()               {}
+func (*User) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{0} }
 
 func (m *User) GetId() string {
 	if m != nil {
@@ -113,36 +83,13 @@ func (m *User) GetGender() UserGender {
 }
 
 type UserList struct {
-	List                 []*User  `protobuf:"bytes,1,rep,name=list,proto3" json:"list,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	List []*User `protobuf:"bytes,1,rep,name=list" json:"list,omitempty"`
 }
 
-func (m *UserList) Reset()         { *m = UserList{} }
-func (m *UserList) String() string { return proto.CompactTextString(m) }
-func (*UserList) ProtoMessage()    {}
-func (*UserList) Descriptor() ([]byte, []int) {
-	return fileDescriptor_74aea6fdcd620c44, []int{1}
-}
-
-func (m *UserList) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_UserList.Unmarshal(m, b)
-}
-func (m *UserList) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_UserList.Marshal(b, m, deterministic)
-}
-func (m *UserList) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_UserList.Merge(m, src)
-}
-func (m *UserList) XXX_Size() int {
-	return xxx_messageInfo_UserList.Size(m)
-}
-func (m *UserList) XXX_DiscardUnknown() {
-	xxx_messageInfo_UserList.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_UserList proto.InternalMessageInfo
+func (m *UserList) Reset()                    { *m = UserList{} }
+func (m *UserList) String() string            { return proto.CompactTextString(m) }
+func (*UserList) ProtoMessage()               {}
+func (*UserList) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{1} }
 
 func (m *UserList) GetList() []*User {
 	if m != nil {
@@ -152,14 +99,119 @@ func (m *UserList) GetList() []*User {
 }
 
 func init() {
-	proto.RegisterEnum("model.UserGender", UserGender_name, UserGender_value)
 	proto.RegisterType((*User)(nil), "model.User")
 	proto.RegisterType((*UserList)(nil), "model.UserList")
+	proto.RegisterEnum("model.UserGender", UserGender_name, UserGender_value)
 }
 
-func init() { proto.RegisterFile("models/user.proto", fileDescriptor_74aea6fdcd620c44) }
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConn
 
-var fileDescriptor_74aea6fdcd620c44 = []byte{
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion4
+
+// Client API for Users service
+
+type UsersClient interface {
+	Register(ctx context.Context, in *User, opts ...grpc.CallOption) (*google_protobuf.Empty, error)
+	List(ctx context.Context, in *google_protobuf.Empty, opts ...grpc.CallOption) (*UserList, error)
+}
+
+type usersClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewUsersClient(cc *grpc.ClientConn) UsersClient {
+	return &usersClient{cc}
+}
+
+func (c *usersClient) Register(ctx context.Context, in *User, opts ...grpc.CallOption) (*google_protobuf.Empty, error) {
+	out := new(google_protobuf.Empty)
+	err := grpc.Invoke(ctx, "/model.Users/Register", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *usersClient) List(ctx context.Context, in *google_protobuf.Empty, opts ...grpc.CallOption) (*UserList, error) {
+	out := new(UserList)
+	err := grpc.Invoke(ctx, "/model.Users/List", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Server API for Users service
+
+type UsersServer interface {
+	Register(context.Context, *User) (*google_protobuf.Empty, error)
+	List(context.Context, *google_protobuf.Empty) (*UserList, error)
+}
+
+func RegisterUsersServer(s *grpc.Server, srv UsersServer) {
+	s.RegisterService(&_Users_serviceDesc, srv)
+}
+
+func _Users_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(User)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsersServer).Register(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/model.Users/Register",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsersServer).Register(ctx, req.(*User))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Users_List_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(google_protobuf.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsersServer).List(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/model.Users/List",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsersServer).List(ctx, req.(*google_protobuf.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _Users_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "model.Users",
+	HandlerType: (*UsersServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Register",
+			Handler:    _Users_Register_Handler,
+		},
+		{
+			MethodName: "List",
+			Handler:    _Users_List_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "models/user.proto",
+}
+
+func init() { proto.RegisterFile("models/user.proto", fileDescriptor1) }
+
+var fileDescriptor1 = []byte{
 	// 272 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x74, 0x90, 0x4f, 0x6b, 0xb3, 0x40,
 	0x10, 0xc6, 0xd5, 0x6c, 0xc4, 0x4c, 0x78, 0xf3, 0x26, 0x73, 0x28, 0x62, 0x0f, 0x15, 0x4f, 0xb6,
