@@ -1,7 +1,7 @@
 package main
 
 import (
-	"go-grpc1/config"
+	"go-grpc/config"
 	"log"
 	"net"
 
